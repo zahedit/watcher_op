@@ -184,7 +184,7 @@ letter-spacing: -0.1em;
   gap: 20px;
   padding: 0 20px;
   width: 100%;
-  display: none;
+  display: flex;
 }
 .showit {
   display: flex;
