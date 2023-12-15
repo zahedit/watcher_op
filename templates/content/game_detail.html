@@ -1,0 +1,107 @@
+<!-- Import the django template module -->
+{% load static %}
+
+<!-- Define the game detail template -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Define the meta data and title -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Detail</title>
+    <!-- Link the bootstrap CSS file -->
+</head>
+<body>
+    <!-- Define the container div -->
+    <div class="container">
+        <!-- Define the header div -->
+        <div class="header">
+            <!-- Define the h1 tag for the app name -->
+            <h1>WatchPlay</h1>
+            <!-- Define the p tag for the app description -->
+            <p>The app that lets you view and review your content.</p>
+        </div>
+        <!-- Define the main div -->
+        <div class="main">
+            <!-- Define the game detail div -->
+            <div class="game-detail">
+                <!-- Define the h2 tag for the game title -->
+                <h2>{{ game.title }}</h2>
+                <!-- Define the ul tag for the game info -->
+                <ul>
+                    <!-- Define the li tag for the game genre -->
+                    <li>Genre: {{ game.genre }}</li>
+                    <!-- Define the li tag for the game platform -->
+                    <li>Platform: {{ game.platform }}</li>
+                    <!-- Define the li tag for the game release date -->
+                    <li>Release Date: {{ game.release_date }}</li>
+                    <!-- Define the li tag for the game age rating -->
+                    <li>Age Rating: {{ game.age_rating }}</li>
+                </ul>
+                <!-- Define the img tag for the game cover -->
+                <img src="{{ game.cover }}" alt="{{ game.title }} cover" width="300" height="400">
+                <!-- Define the p tag for the game description -->
+                <p>{{ game.description|safe }}</p>
+            </div>
+            <!-- Define the user review div -->
+            <div class="user-review">
+                <!-- Check if the user is authenticated -->
+                {% if user.is_authenticated %}
+                    <!-- Check if the user has a user game object -->
+                    {% if user_game %}
+                        <!-- Define the h3 tag for the user rating and review -->
+                        <h3>Your Rating and Review</h3>
+                        <!-- Define the p tag for the user rating -->
+                        <p>Rating: {{ user_game.rating }} stars</p>
+                        <!-- Define the p tag for the user review -->
+                        <p>Review: {{ user_game.review }}</p>
+                        <!-- Define the form tag for updating the user rating and review -->
+                        <form method="post">
+                            <!-- Add the csrf token for security -->
+                            {% csrf_token %}
+                            <!-- Define the input tag for updating the user rating -->
+                            <input type="number" name="user_rating" min="1" max="5" value="{{ user_game.rating }}" required>
+                            <!-- Define the textarea tag for updating the user review -->
+                            <textarea name="user_review" rows="5" cols="50">{{ user_game.review }}</textarea>
+                            <!-- Define the button tag for submitting the update action -->
+                            <button type="submit">Update</button>
+                        </form>
+                    <!-- If the user does not have a user game object, show a message and a form to add one -->
+                    {% else %}
+                        <!-- Define the h3 tag for adding a user rating and review -->
+                        <h3>Add Your Rating and Review</h3>
+                        <!-- Define the p tag for a message to encourage adding a rating and review -->
+                        <p>You have not rated or reviewed this game yet. Why not share your thoughts and feelings with other users?</p>
+                        <!-- Define the form tag for adding a user rating and review -->
+                        <form method="post">
+                            <!-- Add the csrf token for security -->
+                            {% csrf_token %}
+                            <!-- Define the input tag for adding a user rating -->
+                            <input type="number" name="user_rating" min="1" max="5" placeholder="Enter a rating from 1 to 5 stars" required>
+                            <!-- Define the textarea tag for adding a user review -->
+                            <textarea name="user_review" rows="5" cols="50" placeholder="Enter a review"></textarea>
+                            <!-- Define the button tag for submitting the add action -->
+                            <button type="submit">Add</button>
+                        </form>
+                    {% endif %}
+                <!-- If the user is not authenticated, show a message and a link to login or register -->
+                {% else %}
+                    <!-- Define the h3 tag for a message to ask to login or register -->
+                    <h3>Please Login or Register</h3>
+                    <!-- Define the p tag for a message to explain why login or register is needed -->
+                    <p>You need to login or register to rate and review this game. It's free and easy, and you can access your content history and preferences anytime.</p>
+                    <!-- Define the a tag for a link to the login page -->
+                    <a href="{% url 'login' %}">Login</a>
+                    <!-- Define the a tag for a link to the register page -->
+                    <a href="{% url 'register' %}">Register</a>
+                {% endif %}
+            </div>
+        </div>
+        <!-- Define the footer div -->
+        <div class="footer">
+            <!-- Define the p tag for the credits -->
+            <p>Powered by Bing AI and RAWG API.</p>
+        </div>
+    </div>
+</body>
+</html>

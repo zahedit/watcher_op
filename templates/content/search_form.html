@@ -1,0 +1,86 @@
+<style>
+    img{
+        max-width: 200px;
+        max-height: auto;
+    }
+  </style>
+
+{% block content %}
+<h1>Search Games</h1>
+<form action="{% url 'result_game' %}" method="get">
+    <label for="name">Enter the name of a game:</label>
+    <input type="text" id="name" name="name" required>
+    <button type="submit">Search</button>
+</form>
+
+<h1>Search movies</h1>
+<form action="{% url 'result_movie' %}" method="get">
+    <label for="name">Enter the name of a movie:</label>
+    <input type="text" id="name" name="name" required>
+    <button type="submit">Search</button>
+</form>
+
+<h1>Search tv shows</h1>
+<form action="{% url 'result_tv' %}" method="get">
+    <label for="name">Enter the name of a tv show:</label>
+    <input type="text" id="name" name="name" required>
+    <button type="submit">Search</button>
+</form>
+
+</form>
+{% if tvshows %}
+<div class="row">
+  {% for result, is_following in tvshows %}
+  <div class="col-md-4">
+    <div class="card mb-4">
+      <img src="http://image.tmdb.org/t/p/w500/{{ result.cover }}" class="card-img-top" alt="{{ result.title }}">
+      <div class="card-body">
+        <h2 class="card-title">{{ result.title }}</h2>
+        <p class="card-text">Release date: {{ result.start_date|date:"Y" }}</p>
+        <p class="card-text">Overview: {{ result.description }}</p>
+        <p class="card-text">Rating: {{ result.rating }}</p>
+        <a href="{% url 'add_tv' %}?id={{ result.id }}">{% if is_following %}"unfollow"{% else %}"follow"{% endif %}</a>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% endif %}
+{% if movies %}
+<div class="row">
+  {% for result, is_following in movies %}
+  <div class="col-md-4">
+    <div class="card mb-4">
+      <img src="http://image.tmdb.org/t/p/w500/{{ result.cover }}" class="card-img-top" alt="{{ result.title }}">
+      <div class="card-body">
+        <h2 class="card-title">{{ result.title }}</h2>
+        <p class="card-text">Release date: {{ result.release_date|date:"Y" }}</p>
+        <p class="card-text">Overview: {{ result.description }}</p>
+        <p class="card-text">Rating: {{ result.rating }}</p>
+        <a href="{% url 'add_movie' %}?id={{ result.id }}">{% if is_following %}"unfollow"{% else %}"follow"{% endif %}</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% if games %}
+<div class="row">
+  {% for result, is_following in games %}
+  <div class="col-md-4">
+    <div class="card mb-4">
+      <img src="{{ result.cover }}" class="card-img-top" alt="{{ result.title }}">
+      <div class="card-body">
+        <h2 class="card-title">{{ result.title }}</h2>
+        <p class="card-text">Release date: {{ result.release_date|date:"Y" }}</p>
+        <p class="card-text">Overview: {{ result.description }}</p>
+        <p class="card-text">Rating: {{ result.rating }}</p>
+        <a href="{% url 'add_game' %}?id={{ result.id }}">{% if is_following %}"unfollow"{% else %}"follow"{% endif %}</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
+

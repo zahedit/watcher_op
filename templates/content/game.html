@@ -1,0 +1,43 @@
+<!-- Import the django template module -->
+{% load static %}
+
+<!-- Define the game template -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Define the meta data and title -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <!-- Link the bootstrap CSS file -->
+</head>
+<body>
+    <!-- Define the container div -->
+    <div class="container">
+        <!-- Define the header div -->
+        <div class="header">
+            <!-- Define the h1 tag for the app name -->
+            <h1>WatchPlay</h1>
+            <!-- Define the p tag for the app description -->
+            <p>The app that lets you view and review your content.</p>
+        </div>
+        <!-- Define the main div -->
+        <div class="main">
+            <!-- Define the form tag for the user input -->
+            <form method="post">
+                <!-- Add the csrf token for security -->
+                {% csrf_token %}
+                <!-- Define the input tag for the user input -->
+                <input type="text" name="user_input" placeholder="Enter a game title" required>
+                <!-- Define the button tag for the submit action -->
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <!-- Define the footer div -->
+        <div class="footer">
+            <!-- Define the p tag for the credits -->
+            <p>Powered by Bing AI and RAWG API.</p>
+        </div>
+    </div>
+</body>
+</html>

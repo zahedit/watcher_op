@@ -1,0 +1,38 @@
+{% extends "index/base.html" %}
+{% block content %}
+<aside class="content-search-section">
+    <div class="content-choose-head">
+        <div class="content-choose-helper">
+            <h3>Select the category you're trying to search for:</h3>
+        </div>
+        <ul>
+            <li class="active">Movies</li>
+            <li>Tv Shows</li>
+            <li>Video Games</li>
+        </ul>
+    </div>    
+    <div class="items content-search-list">
+        <div class="content-search-form">
+            <form id="form" action="{% url 'result_tv' %}" method="get">
+                <input placeholder="Enter the name of a game:" style="margin-bottom: 8px;" type="text" id="name" name="name" required>
+                <button class="button dark" type="submit">Search</button>
+            </form>
+        </div>
+        {% if results %}
+        {% for result in results|slice:":9" %}
+        <section>
+            <ul class="user-button-content">
+                <li><a href="{% url 'add_tv' %}?id={{ result.id }}">{% if result.is_following %}unfollow{% else %}follow{% endif %}</a></li>
+            </ul>
+            <img src="http://image.tmdb.org/t/p/w500/{{ result.poster_path }}" alt="{{ result.title }}">
+            <h4>{{ result.name }}</h4>
+            <div class="ratinganddate"><span class="release_date">{{ result.first_air_date }}</span> <span class="rating">{{ result.vote_average }}</span></div>
+        </section>
+        {% endfor %}
+        {% else %}
+        <p>No results found.</p>
+        {% endif %}
+    </div>    
+</aside>
+</div>
+{% endblock %}

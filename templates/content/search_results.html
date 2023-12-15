@@ -1,0 +1,27 @@
+<style>
+    img{
+        max-width: 200px;
+        max-height: auto;
+    }
+</style>
+{% block content %}
+<h1>Search Results</h1>
+{% if results %}
+<ul>
+    {% for result in results %}
+    <li>
+        <h2>{{ result.name }}</h2>
+        <img src="{{ result.background_image }}" alt="{{ result.name }} image">
+        <p>Released on: {{ result.released }}</p>
+        <p>Rating: {{ result.rating }} / {{ result.rating_top }}</p>
+        <p>Genres: {{ result.genres|join:", " }}</p>
+        <p>Platforms: {{ result.platforms|join:", " }}</p>
+        <p>Platforms: {{ result.description_raw }}</p>
+        <a href="{{ result.website }}">Visit website</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No results found.</p>
+{% endif %}
+{% endblock %}

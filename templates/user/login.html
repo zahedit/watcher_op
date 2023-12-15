@@ -1,0 +1,17 @@
+{% include "index/header.html" %}
+{% block content %}
+<aside class="register-section">
+  <div class="section-heading-part">
+      <h3>Login to Watcher</h3>
+  </div>
+  <form id="form" action="{{form.action}}" method="post">
+    <table>
+      {% csrf_token %}
+      {{form}}
+    </table>
+    <button class="button light">Submit</button>
+    </form>
+</aside>
+  </div>
+{% endblock %}
+  {% include 'index/footer.html' %}

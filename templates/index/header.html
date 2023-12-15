@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WATCHER</title>
+  <link rel="stylesheet" href="{% static '/watcher/style.css' %}" />
+</head>
+<body>
+  <div class="container">
+    <nav class="navigation">
+      <h1 class="logo">WATCHER</h1>
+      <ul class="nav-links">
+        <li><a href="#">Movies</a></li>
+        <li><a href="#">Tv Shows</a></li>
+        <li><a href="#">Games</a></li>
+        <li><a href="#">More</a></li>
+      </ul>
+      <ul class="nav-icons">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+      </ul>
+    </nav>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}

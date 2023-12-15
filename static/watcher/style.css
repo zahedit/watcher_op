@@ -1,0 +1,556 @@
+/* ==========================================================================
+    FONTS
+========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,600;0,700;0,800;1,100;1,700;1,800&family=Metamorphous&display=swap');
+
+/* ==========================================================================
+    MAIN DEFAULT STYLES
+========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  direction: ltr;
+  background-color: #FAF9FE;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  width: 1336px;
+  margin: auto;
+}
+
+@media only screen and (max-width: 1336px) {
+  .container {
+    width: 960px;
+  }
+}
+@media only screen and (max-width: 961px) {
+  .container {
+    width: 720px;
+  }
+}
+@media only screen and (max-width: 721px) {
+  .container {
+    width: 480px;
+  }
+}
+@media only screen and (max-width: 481px) {
+  .container {
+    width: 80%;
+  }
+}
+
+/* ==========================================================================
+    NAVIGATION
+========================================================================== */
+.navigation {
+  box-sizing: border-box;
+  margin-top: 32px;
+  padding: 23px 32px;
+  background: #FFFFFF;
+  border: 1px solid #E7ECF0;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 43px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  gap: 64px;
+}
+.logo {
+font-family: 'Metamorphous';
+font-style: normal;
+font-weight: 400;
+font-size: 32px;
+/* identical to box height */
+letter-spacing: -0.1em;
+color: #000000;
+}
+.nav-links {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+.nav-links li{
+font-family: 'JetBrains Mono';
+font-style: italic;
+font-weight: 400;
+font-size: 18px;
+letter-spacing: -0.1em;
+}
+.nav-links li a{
+  background: -webkit-linear-gradient(#354AC3, #413C83);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-links li a:hover {
+  background: #000000;
+  font-weight: 600;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-icons {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  gap: 22px;
+}
+.nav-icons li{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 42px;
+  height: 42px;
+  background: #FAF9FE;
+  border-radius: 21px;
+}
+/* ==========================================================================
+    HERO SECTION
+========================================================================== */
+.hero-section {
+  box-sizing: border-box;
+  padding: 32px;
+  margin-top: 64px;
+  height: 340px;
+  background: rgb(81,106,148);
+  background: linear-gradient(220deg, rgba(81,106,148,1) 0%, rgba(65,60,131,1) 100%);  
+  border-radius: 18px;
+}
+
+/* ==========================================================================
+    TRENDING SECTION 
+========================================================================== */
+.trending-section {
+  margin-top: 64px;
+  box-sizing: border-box;
+}
+.section-heading-part {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  gap: 64px;
+}
+.section-heading-part h3 {
+  font-family: 'Metamorphous';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  /* identical to box height */
+  color: #000000;
+}
+.heading-buttons {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #354AC3;
+  border-radius: 30px;
+}
+.heading-buttons li a {
+  padding: 6px 16px;
+  display: block;
+  font-family: 'JetBrains Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: -0.1em;
+}
+.heading-buttons li a:hover {
+  background: rgb(81,106,148);
+  background: linear-gradient(220deg, rgba(81,106,148,1) 0%, rgba(65,60,131,1) 100%);  
+  border-radius: 18px;
+  color: #FFFFFF  ;
+}
+.items {
+  margin-top: 22px;
+  flex-direction: row;
+  flex-flow: wrap;
+  justify-content: left;
+  align-items: center;
+  gap: 20px;
+  padding: 0 20px;
+  width: 100%;
+  display: none;
+}
+.showit {
+  display: flex;
+}
+.user-profile-last-added .items {
+  gap: 6.8px;
+  padding: 0 6.8px;
+}
+.items section {
+  width: 206px;
+  border-radius: 18px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #D9D9D9;
+  transition: all 0.5s;
+}
+.items section:hover {
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.15);
+}
+.items section img {
+  width: 100%;
+  height: auto;
+}
+.items section h4 {
+  padding: 8px 16px;
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1em;
+}
+.ratinganddate {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 16px 16px;
+}
+.ratinganddate span {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.8em;
+}
+.user-button-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 8px;
+}
+.user-button-content a {
+  color: white;
+  padding: 4px;
+  border-radius: 16px;
+  background-color: black;
+}
+
+/* ==========================================================================
+    FOOTER
+========================================================================== */
+#footer {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 64px;
+  border-top: 6px solid #413C83;
+  padding: 32px 0;
+}
+.footer-sections {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-bottom-part {
+  margin-top: 32px;
+  box-sizing: border-box;
+  padding: 16px 0;
+  border-top: 1px solid #ddd;
+}
+.footer-bottom-part ul {
+  display: flex;
+  flex-direction: row;
+  gap: 64px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ==========================================================================
+    USER PROFILE PART
+========================================================================== */
+/* header */
+.user-profile-header {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 32px;
+  margin-top: 32px;
+  background: #FFFFFF;
+  /* background-color: #E9ECEF; */
+  border-radius: 32px 32px 0 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  gap: 32px;
+  border: 1px solid #E7ECF0;
+}
+.profile-avatar {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.profile-avatar img {
+  width: 120px;
+  height: auto;
+  border-radius: 50%;
+}
+.u-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  gap: 4px;
+}
+.u-info h2 {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: bolder;
+  font-size: 2em;
+}
+.u-info p {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1em;
+}
+.u-states, .u-followers-following-states {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  gap: 16px;
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.8em;
+}
+.u-states em, .u-followers-following-states em{
+  font-weight: bolder;
+}
+.u-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-left: auto;
+}
+.u-buttons-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  gap: 16px;
+}
+/* USER LINKS */
+.user-profile-links {
+  background-color: #F9EACE;
+  border-left: 1px solid #E7ECF0;
+  border-right: 1px solid #E7ECF0;
+  padding: 8px 32px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+/* USER CONTENTS */
+.user-profile-last-added {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 32px 32px 64px 32px;
+  background: #FFFFFF;
+  /* background-color: #E9ECEF; */
+  border-radius: 0 0 32px 32px;
+  border: 1px solid #E7ECF0;
+}
+
+.button {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1em;
+  border-radius: 32px;
+  display: block;
+  padding: 16px 32px;
+}
+.light {
+  background: rgb(255,211,78);
+  background: linear-gradient(90deg, rgba(255,211,78,1) 100%, rgba(255,188,30,1) 100%);
+  box-shadow: 0px 0px 16px rgba(255,211,78, 1);
+  color: #000000;
+}
+.dark {
+  background: rgb(81,106,148);
+  background: linear-gradient(220deg, rgba(81,106,148,1) 0%, rgba(65,60,131,1) 100%);  
+  box-shadow: 0px 0px 16px rgba(81,106,148, 1);
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+    REGISTER SECTION
+========================================================================== */
+.register-section {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 32px;
+  margin-top: 64px;
+  background: #FFFFFF;
+  border-radius: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+  gap: 32px;
+  border: 1px solid #E7ECF0;
+}
+
+#form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 440px;
+}
+#form tr {
+  /* background-color: red; */
+  width: 440px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+#form tr th {
+  display: block;
+  text-align: left;
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.8em;
+}
+#form tr td {
+  width: 100%;
+  display: block;
+}
+#form input {
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  border: 1px solid #E7ECF0;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.05);
+
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1em;
+}
+#form button {
+  border: none;
+  cursor: pointer;
+}
+.reset-password-buttons-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+.errorlist {
+  background-color: rgb(252, 126, 126);
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: bolder;
+  font-size: 0.8em;
+  padding: 8px;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
+.errorlist li {
+  border-bottom: 1px solid red;
+  padding-bottom: 4px;
+  display: block;
+  margin-bottom: 4px;
+}
+.errorlist li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+    CONTENT SEARCH
+========================================================================== */
+.content-search-section {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 64px;
+  background: #FFFFFF;
+  border-radius: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+  gap: 32px;
+  border: 1px solid #E7ECF0;
+  overflow: hidden;
+}
+.content-choose-head {
+  width: 100%;
+  border-bottom: 1px solid #E7ECF0;
+}
+.content-choose-head ul {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.content-choose-head li {
+  flex-basis:33.333%;
+  text-align: center;
+  padding: 16px 0;
+  box-sizing: border-box;
+  border-right: 1px solid #E7ECF0;
+}
+.content-choose-head li:last-child {
+  border-right: none;
+}
+.content-choose-helper {
+  width: 100%;
+  background-color: #D9D9D9;
+  border-bottom: 1px solid #E7ECF0;
+  text-align: center;
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.7em;
+  padding: 16px 0;
+  color: #354AC3;
+}
+.content-search-list {
+  margin: 0 32px 32px 32px;
+  gap: 6.8px;
+}
+.content-search-form {
+  width: 100%;
+  margin-bottom: 32px;
+  background-color: #F9EACE;
+  padding: 32px;
+  border-radius: 16px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+
+}
+.content-search-form form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    <h1>{{ user.username }}</h1>
+    {% if user.avatar %}
+    <img src="{{ user.avatar.url }}" alt="Avatar">
+    {% else %}
+    <p>No avatar</p>
+    {% endif %}
+    <p>Email: {{ user.email }}</p>
+    <p>Nickname: {{ user.nickname }}</p>
+    <p>Phone number: {{ user.phone_number }}</p>
+    <p>Bio: {{ user.bio }}</p>
+    <p>Website: <a href="{{ user.website }}">{{ user.website }}</a></p>
+    <p>Verified: {{ user.is_varified }}</p>
+    <p>Date joined: {{ user.date_joined }}</p>
+    
+</body>
+</html>

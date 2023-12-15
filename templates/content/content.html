@@ -1,0 +1,70 @@
+{% extends "index/base.html" %}
+{% block content %}
+<aside class="content-search-section">
+    <div class="content-choose-head">
+        <div class="content-choose-helper">
+            <h3>Select the category you're trying to search for:</h3>
+        </div>
+        <ul>
+            <li class="section1 active" onclick="openCity('section1')">Tv Shows</li>
+            <li class="section2" onclick="openCity('section2')">Movies</li>
+            <li class="section3" onclick="openCity('section3')">Video Games</li>
+        </ul>
+    </div>
+    <div class="items content-search-list showit" id="section1">
+        tv shows
+        <div class="content-search-form">
+            <form id="form" action="{% url 'result_tv' %}" method="get">
+                <input placeholder="Enter the name of a Tv show:" style="margin-bottom: 8px;" type="text" id="name" name="name" required>
+                <button class="button dark" type="submit">Search</button>
+            </form>
+        </div>
+        {% if tvshows %}
+        {% for result, is_following in tvshows %}
+        <section>
+            <img src="http://image.tmdb.org/t/p/w500/{{ result.cover }}" alt="{{ result.title }}">
+            <h4>{{ result.title }}</h4>
+            <div class="ratinganddate"><span class="release_date">{{ result.start_date|date:"Y" }}</span> <span class="rating">{{ result.rating }}</span></div>
+        </section>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="items content-search-list" id="section2">
+        Movies
+        <div class="content-search-form">
+            <form id="form" action="{% url 'result_movie' %}" method="get">
+                <input placeholder="Enter the name of a Movie:" style="margin-bottom: 8px;" type="text" id="name" name="name" required>
+                <button class="button dark" type="submit">Search</button>
+            </form>
+        </div>
+        {% if movies %}
+        {% for result, is_following in movies %}
+        <section>
+            <img src="http://image.tmdb.org/t/p/w500/{{ result.cover }}" alt="{{ result.title }}">
+            <h4>{{ result.title }}</h4>
+            <div class="ratinganddate"><span class="release_date">{{ result.release_date|date:"Y" }}</span> <span class="rating">{{ result.rating }}</span></div>
+        </section>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="items content-search-list" id="section3">
+        Games
+        <div class="content-search-form">
+            <form id="form" action="{% url 'result_game' %}" method="get">
+                <input placeholder="Enter the name of a Game:" style="margin-bottom: 8px;" type="text" id="name" name="name" required>
+                <button class="button dark" type="submit">Search</button>
+            </form>
+        </div>
+        {% if games %}
+        {% for result, is_following in games %}
+        <section>
+            <img src="{{ result.cover }}" alt="{{ result.title }}">
+            <h4>{{ result.title }}</h4>
+            <div class="ratinganddate"><span class="release_date">{{ result.start_date|date:"Y" }}</span> <span class="rating">{{ result.rating }}</span></div>
+        </section>
+        {% endfor %}
+        {% endif %}
+    </div>
+</aside>
+</div>
+{% endblock %}
