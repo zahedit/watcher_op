@@ -30,7 +30,7 @@ class Movie(models.Model):
 class TVShow(models.Model):
     title = models.CharField(max_length=256)
     genre = models.CharField(max_length=256)
-    start_date = models.DateField()
+    release_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
     seasons = models.IntegerField()
     rating = models.CharField(max_length=128)

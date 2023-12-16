@@ -19,6 +19,8 @@ from django.core.mail import EmailMessage
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from content.models import UserContent, TVShow, Movie, Game
 
 User = get_user_model()
 
@@ -159,3 +161,57 @@ class UserUpdateView(UpdateView):
             # If no, redirect to the login page
             return redirect('auth-login')
 #############################################
+@login_required
+def dashboard(request, username):
+    # Retrieve the user based on the provided username
+    user = get_object_or_404(User, username=username)
+
+    # Retrieve the latest 10 content items added by the user from all categories
+    latest_content = UserContent.objects.filter(user=user).order_by('-id')[:10]
+
+    content_with_details = []
+
+    # Initialize counts
+    tvshow_count = 0
+    movie_count = 0
+    game_count = 0
+
+    for content in latest_content:
+        if content.category == 'tvshow':
+            content_details = get_object_or_404(TVShow, id=content.content_id)
+            tvshow_count += 1
+        elif content.category == 'movie':
+            content_details = get_object_or_404(Movie, id=content.content_id)
+            movie_count += 1
+        elif content.category == 'game':
+            content_details = get_object_or_404(Game, id=content.content_id)
+            game_count += 1
+
+        if content.category != 'game':
+            content_with_details.append({
+                'category': content.category,
+                'content_id': content.content_id,
+                'release_date' : content_details.release_date,
+                'name': content_details.title,
+                'cover': content_details.cover,
+                'rating': content_details.rating,
+                'review': content.review,
+            })
+        else:
+            content_with_details.append({
+                'category': content.category,
+                'content_id': content.content_id,
+                'release_date' : content_details.release_date,
+                'name': content_details.title,
+                'cover': content_details.cover,
+                'review': content.review,
+            })
+
+    return render(request, "user/profile.html", {
+        "content_with_details": content_with_details,
+        "user": user,
+        "tvshow_count": tvshow_count,
+        "movie_count": movie_count,
+        "game_count": game_count,
+    })
+

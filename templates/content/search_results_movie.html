@@ -24,7 +24,7 @@
           <p class="card-text">Release date: {{ result.release_date }}</p>
           <p class="card-text">Overview: {{ result.overview }}</p>
           <p class="card-text">Rating: {{ result.vote_average }}</p>
-          <a href="{% url 'add_content' %}?id={{ result.id }}">{% if result.is_following %}"unfollow"{% else %}"follow"{% endif %}</a>
+          <a href="{% url 'add_content' %}?id={{ result.id }}&category=movie">{% if result.is_following %}"unfollow"{% else %}"follow"{% endif %}</a>
         </div>
       </div>
     </div>

@@ -22,7 +22,7 @@
         {% for result in results|slice:":9" %}
         <section>
             <ul class="user-button-content">
-                <li><a href="{% url 'add_content' %}?id={{ result.id }}">{% if result.is_following %}unfollow{% else %}follow{% endif %}</a></li>
+                <li><a href="{% url 'add_content' %}?id={{ result.id }}&category=tvshow">{% if result.is_following %}unfollow{% else %}follow{% endif %}</a></li>
             </ul>
             <img src="http://image.tmdb.org/t/p/w500/{{ result.poster_path }}" alt="{{ result.title }}">
             <h4>{{ result.name }}</h4>

@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Game, Movie, TVShow, UserContent
 from .models import TVShow, UserContent
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseBadRequest
 
 
 api_key_movie = "db9e6b5bb2e44f19d109c9ae67a1bce7"
@@ -85,10 +86,10 @@ def search_games(request):
         result['is_following'] = UserContent.objects.filter(
             user=request.user, category=category, content_id=content_id
         ).exists()
-    return render(request, "content/search_results.html", {"results": results})
+    return render(request, "content/search_results_game.html", {"results": results})
 #############################################
 def search_form(request):
-    tvshows = TVShow.objects.order_by("-start_date")[:10]
+    tvshows = TVShow.objects.order_by("-release_date")[:10]
     movies = Movie.objects.order_by("-release_date")[:10]
     games = Game.objects.order_by("-release_date")[:10]
     # return render(request, "content/search_form.html", {"tvshows": tvshows_with_follow})
@@ -96,65 +97,105 @@ def search_form(request):
 #############################################
 @login_required
 def add_content(request):
-    tv_id = request.GET.get('id')
-    url = f"{base_url_movie}/tv/{tv_id}?api_key={api_key_movie}"
-    response = requests.get(url)
-    result = response.json()
+    category = request.GET.get('category')
+    content_id = request.GET.get('id')
 
-    # Check if the TV show already exists in the database
-    tvShow = TVShow.objects.filter(title=result["name"]).first()
-    category = 'tvshow'
-    if not tvShow:
-        # create a new movie object and save it to the database
-        tvShow = TVShow(
-            id = result["id"],
-            title = result["name"],
-            genre=", ".join([g["name"] for g in result["genres"]]),
-            start_date = result["first_air_date"],
-            end_date = result["last_air_date"],
-            seasons = result["number_of_seasons"],
-            rating = result["vote_average"],
-            cover = result["poster_path"],
-            description = result["overview"],
-        )
-        tvShow.save()
-    tvshow_user_searched = TVShow.objects.get(title=result["name"])
-    qs = UserContent.objects.filter(user=request.user, category=category, content_id=tv_id)
-    if qs.exists():
-        qs.delete()
+    if category == 'game':
+        url = f"{base_url_game}/{content_id}?key={api_key_game}" 
+        response = requests.get(url)
+        result = response.json()
+
+        game = Game.objects.filter(title=result["name"]).first()
+        if not game:
+            game = Game(
+                id = result["id"],
+                title=result["name"],
+                genre=", ".join([g["name"] for g in result["genres"]]),
+                platform=", ".join([p["platform"]["name"] for p in result["platforms"]]),
+                release_date=result["released"],
+                age_rating=result["esrb_rating"]["name"] if result["esrb_rating"] else "Unknown",
+                cover=result["background_image"],
+            )
+            game.save()
+
+        user_content = UserContent.objects.filter(user=request.user, category=category, content_id=content_id)
+        if user_content.exists():
+            user_content.delete()
+        else:
+            UserContent.objects.get_or_create(
+                user=request.user,
+                category=category,
+                content_id=game.id
+            )
+        return render(request, "content/confirmation.html", {"content": game})
+
+    elif category == 'movie':
+        # Logic for movie category
+        url = f"{base_url_movie}/movie/{content_id}?api_key={api_key_movie}"
+        url_credits = f"{base_url_movie}/movie/{content_id}/credits?api_key={api_key_movie}"
+        response = requests.get(url)
+        result = response.json()
+
+        response_credits = requests.get(url_credits) 
+        result_credits = response_credits.json()
+
+        movie = Movie.objects.filter(title=result["title"]).first()
+        if not movie:
+            movie = Movie(
+                id = result["id"],
+                title=result["title"],
+                genre=", ".join([g["name"] for g in result["genres"]]),
+                director=", ".join([d["name"] for d in result_credits["crew"] if d["job"] == "Director"]),
+                release_date=result["release_date"],
+                rating=result["vote_average"],
+                cover=result["poster_path"],
+                description=result["overview"],
+            )
+            movie.save()
+
+        user_content = UserContent.objects.filter(user=request.user, category=category, content_id=content_id)
+        if user_content.exists():
+            user_content.delete()
+        else:
+            UserContent.objects.get_or_create(
+                user=request.user,
+                category=category,
+                content_id=movie.id
+            )
+        return render(request, "content/confirmation.html", {"content": movie})
+
+    elif category == 'tvshow':
+        # Logic for TV show category
+        url = f"{base_url_movie}/tv/{content_id}?api_key={api_key_movie}"
+        response = requests.get(url)
+        result = response.json()
+
+        tvshow = TVShow.objects.filter(title=result["name"]).first()
+        if not tvshow:
+            tvshow = TVShow(
+                id = result["id"],
+                title=result["name"],
+                genre=", ".join([g["name"] for g in result["genres"]]),
+                release_date=result["first_air_date"],
+                end_date=result["last_air_date"],
+                seasons=result["number_of_seasons"],
+                rating=result["vote_average"],
+                cover=result["poster_path"],
+                description=result["overview"],
+            )
+            tvshow.save()
+
+        user_content = UserContent.objects.filter(user=request.user, category=category, content_id=content_id)
+        if user_content.exists():
+            user_content.delete()
+        else:
+            UserContent.objects.get_or_create(
+                user=request.user,
+                category=category,
+                content_id=tvshow.id
+            )
+        return render(request, "content/confirmation.html", {"content": tvshow})
+
     else:
-        UserContent.objects.get_or_create (
-            user=request.user,
-            category='tvshow',  # Adjust the category based on your logic for movies, shows, and games
-            content_id= tvshow_user_searched.id
-        )
-    return render(request, "content/confirmation.html", {"tv": tvShow})
-
-from django.shortcuts import render, get_object_or_404
-from .models import UserContent, TVShow, Movie, Game
-
-@login_required
-def dashboard(request):
-    # Retrieve the latest 10 content items added by the user from all categories
-    latest_content = UserContent.objects.filter(user=request.user).order_by('-id')[:10]
-
-    content_with_details = []
-
-    for content in latest_content:
-        if content.category == 'tvshow':
-            content_details = get_object_or_404(TVShow, id=content.content_id)
-        elif content.category == 'movie':
-            content_details = get_object_or_404(Movie, id=content.content_id)
-        elif content.category == 'game':
-            content_details = get_object_or_404(Game, id=content.content_id)
-
-        content_with_details.append({
-            'category': content.category,
-            'content_id': content.content_id,
-            'name': content_details.title,
-            'cover': content_details.cover,
-            'rating': content.rating,
-            'review': content.review,
-        })
-
-    return render(request, "content/dashboard.html", {"content_with_details": content_with_details})
+        # Handle invalid category
+        return HttpResponseBadRequest("Invalid category")

@@ -18,6 +18,7 @@
         <p>Platforms: {{ result.platforms|join:", " }}</p>
         <p>Platforms: {{ result.description_raw }}</p>
         <a href="{{ result.website }}">Visit website</a>
+        <a href="{% url 'add_content' %}?id={{ result.id }}&category=game">{% if result.is_following %}"unfollow"{% else %}"follow"{% endif %}</a>
     </li>
     {% endfor %}
 </ul>

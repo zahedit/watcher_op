@@ -6,7 +6,11 @@
     <ul>
       {% for content in content_with_details %}
         <li>
-          <img src="http://image.tmdb.org/t/p/w500/{{ content.cover }}" alt="{{ content.name }} Cover">
+          {% if content.category == 'game' %}
+          <img src="{{ content.cover }}" alt="{{ content.name }} Cover">
+          {% else %}
+              <img src="http://image.tmdb.org/t/p/w500/{{ content.cover }}" alt="{{ content.name }} Cover">
+          {% endif %}
           <p>{{ content.name }} - {{ content.category }}</p>
           <p>Rating: {{ content.rating }}</p>
           <p>Review: {{ content.review }}</p>
