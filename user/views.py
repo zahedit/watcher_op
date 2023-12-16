@@ -21,6 +21,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from content.models import UserContent, TVShow, Movie, Game
+from .models import Follow
 
 User = get_user_model()
 
@@ -168,7 +169,7 @@ def dashboard(request, username):
 
     # Retrieve the latest 10 content items added by the user from all categories
     latest_content = UserContent.objects.filter(user=user).order_by('-id')[:10]
-
+    is_following = Follow.objects.filter(follower=request.user, following=user).exists()
     content_with_details = []
 
     # Initialize counts
@@ -213,5 +214,26 @@ def dashboard(request, username):
         "tvshow_count": tvshow_count,
         "movie_count": movie_count,
         "game_count": game_count,
+        "is_following": is_following,
     })
+#############################################
+@login_required
+def follow_user(request, username):
+    user_to_follow = get_object_or_404(User, username=username)
+    request.user.follow(user_to_follow)
+    return redirect('profile', username=username)
+#############################################
+@login_required
+def unfollow_user(request, username):
+    user_to_unfollow = get_object_or_404(User, username=username)
+    request.user.unfollow(user_to_unfollow)
+    return redirect('profile', username=username)
+#############################################
+def followers(request, username):
+    # Retrieve the user based on the provided username
+    user = get_object_or_404(User, username=username)
 
+    # Get the followers of the user
+    user_followers = Follow.objects.filter(following=user)
+
+    return render(request, "user/followers.html", {"user": user, "user_followers": user_followers})

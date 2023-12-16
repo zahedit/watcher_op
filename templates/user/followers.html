@@ -1,0 +1,14 @@
+
+{% block content %}
+    <h2>Followers of {{ user.username }}</h2>
+    
+    {% if user_followers %}
+        <ul>
+            {% for follower in user_followers %}
+                <li>{{ follower.follower.username }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No followers yet.</p>
+    {% endif %}
+{% endblock %}

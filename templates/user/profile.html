@@ -1,8 +1,13 @@
 {% include "index/header.html" %}
 {% block content %}
-
     <aside class="user-profile-header">
-        <i class="profile-avatar"><img src="http://localhost:8000/media/users/avatar/admin.jpg" alt=""></i>
+        <i class="profile-avatar">
+          {% if user.avatar %}
+              <img src="{{ user.avatar.url }}" alt="{{ user.username }} Avatar">
+          {% else %}
+              <img src="" alt="{{ user.username }} Avatar">
+          {% endif %}
+        </i>    
         <div class="u-info">
             <h2>{{ user.username }}</h2>
             <p>{{ user.bio }}</p>
@@ -10,41 +15,51 @@
         <div class="u-buttons">
             <div class="u-buttons-group">
                 <a class="button light" href="">Send Note</a>
-                <a class="button dark" href="">Follow</a>
+                {% if request.user != user %}
+                  {% if is_following %}
+                  <a class="button dark" href="{% url 'unfollow' username=user.username %}">Unfollow</a>
+                  {% else %}
+                  <a class="button dark" href="{% url 'follow' username=user.username %}">Follow</a>
+                  {% endif %}
+                {% endif %}
             </div>
         </div>
     </aside>
     <aside class="user-profile-links">
-      <ul class="u-states">
-        <li><span>Tv Shows:</span> <em>{{ tvshow_count }}</em></li>
-        <li><span>Movies:</span> <em>{{ movie_count }}</em></li>
-        <li><span>Games:</span> <em>{{ game_count }}</em></li>
-    </ul>
-      <ul class="u-followers-following-states">
-        <li><span>Followers:</span> <em>10</em></li>
-        <li><span>Following:</span> <em>12</em></li>
-    </ul>
+        <ul class="u-states">
+            <li><span>Tv Shows:</span> <em>{{ tvshow_count }}</em></li>
+            <li><span>Movies:</span> <em>{{ movie_count }}</em></li>
+            <li><span>Games:</span> <em>{{ game_count }}</em></li>
+        </ul>
+        <ul class="u-followers-following-states">
+            <li><span>Followers:</span> <em>{{ user.followers.count }}</em></li>
+            <li><span>Following:</span> <em>{{ user.following.count }}</em></li>
+        </ul>
     </aside>
     <aside class="user-profile-last-added">
-      {% if content_with_details %}
-      <div class="items">
-        {% for content in content_with_details %}
-        <section>
-          {% if content.category == 'game' %}
-          <img src="{{ content.cover }}" alt="{{ content.name }} Cover">
-          {% else %}
-              <img src="http://image.tmdb.org/t/p/w500/{{ content.cover }}" alt="{{ content.name }} Cover">
-          {% endif %}
-          <h4>{{ content.name }}</h4>
-          <div class="ratinganddate"><span class="release_date">{{ content.release_date }}</span> {% if content.category != 'game' %}<span class="rating">{{ content.rating }}</span>{% endif %}</div>
-        </section>
-        {% endfor %}
-      </div>
-      {% else %}
-      <p>No content added to your dashboard yet.</p>
-      {% endif %}
+        {% if content_with_details %}
+            <div class="items">
+                {% for content in content_with_details %}
+                    <section>
+                        {% if content.category == 'game' %}
+                            <img src="{{ content.cover }}" alt="{{ content.name }} Cover">
+                        {% else %}
+                            <img src="http://image.tmdb.org/t/p/w500/{{ content.cover }}" alt="{{ content.name }} Cover">
+                        {% endif %}
+                        <h4>{{ content.name }}</h4>
+                        <div class="ratinganddate">
+                            <span class="release_date">{{ content.release_date }}</span>
+                            {% if content.category != 'game' %}
+                                <span class="rating">{{ content.rating }}</span>
+                            {% endif %}
+                        </div>
+                    </section>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No content added to your dashboard yet.</p>
+        {% endif %}
     </aside>
-  </div>
-
+</div>
 {% endblock %}
 {% include 'index/footer.html' %}

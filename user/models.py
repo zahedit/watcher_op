@@ -77,7 +77,28 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.username
-    
+    ###########################################################
+    def follow(self, user):
+        """
+        Follow the given user.
+        """
+        if not self.is_following(user):
+            Follow.objects.create(follower=self, following=user)
+
+    def unfollow(self, user):
+        """
+        Unfollow the given user.
+        """
+        follow = Follow.objects.filter(follower=self, following=user).first()
+        if follow:
+            follow.delete()
+
+    def is_following(self, user):
+        """
+        Check if the user is following the given user.
+        """
+        return Follow.objects.filter(follower=self, following=user).exists()
+    ###########################################################
     def save(self, *args, **kwargs):
         if self.avatar:
             im = Image.open(self.avatar)
@@ -109,4 +130,14 @@ class User(AbstractBaseUser, PermissionsMixin):
                 this.avatar.delete()
         except: pass
         super(User, self).save()
+###############################################################
+class Follow(models.Model):
+    follower = models.ForeignKey(User, related_name='following', on_delete=models.CASCADE)
+    following = models.ForeignKey(User, related_name='followers', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ('follower', 'following')
+        
+    def __str__(self):
+        return f"{self.follower.username} is following {self.following.username}"
